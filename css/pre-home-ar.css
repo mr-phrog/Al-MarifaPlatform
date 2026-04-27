@@ -1,0 +1,474 @@
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap');
+
+
+/*houdini*/
+@property --blink-opacity {
+    syntax: "<number>";
+    inherits: false;
+    initial-value: 1;
+}
+
+@keyframes blink-animation {
+    0%,
+    100% {
+        opacity: var(--blink-opacity, 1);
+    }
+    50% {
+        opacity: 0;
+    }
+}
+/*houdini*/
+
+/* base */
+:root {
+    font-family: 'Tajawal', sans-serif; /* Replace with an RTL-compatible font */ 
+    --stripe-color: #fff;
+    --bg: var(--stripe-color);
+    --maincolor: var(--bg);
+    --btn-bg-color: #007BFF;
+    --btn-hover-bg-color: #0056b3;
+    --btn-text-color: #fff;
+    --icon-opacity: 1;
+    --icon-transform: scale(1);
+
+    /* RTL direction */
+    direction: rtl; 
+}
+
+body {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    place-content: center;
+    place-items: center;
+    background: var(--bg);
+    margin: 0;
+    overflow: hidden;
+}
+
+/*custom*/
+
+@keyframes smoothBg {
+    from {
+        background-position: 50% 50%, 50% 50%;
+    }
+    to {
+        background-position: -150% 50%, -150% 50%; /* Adjusted for RTL */
+    }
+}
+
+.wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden; /* Ensure the content does not overflow the wrapper */
+}
+
+.hero {
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    place-content: center;
+    place-items: center;
+    --stripes: repeating-linear-gradient(
+        -100deg, /* Adjusted for RTL */
+        var(--stripe-color) 0%,
+        var(--stripe-color) 7%,
+        transparent 10%,
+        transparent 12%,
+        var(--stripe-color) 16%
+    );
+
+    --rainbow: repeating-linear-gradient(
+        -100deg, /* Adjusted for RTL */
+        #60a5fa 10%,
+        #e879f9 15%,
+        #60a5fa 20%,
+        #5eead4 25%,
+        #60a5fa 30%
+    );
+    background-image: var(--stripes), var(--rainbow);
+    background-size: 300%, 200%;
+    background-position: 50% 50%, 50% 50%;
+
+    filter: blur(10px) invert(100%);
+
+    /* Adjusted for RTL */
+    mask-image: radial-gradient(ellipse at 0% 0%, black 40%, transparent 70%); 
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: var(--stripes), var(--rainbow);
+    background-size: 200%, 100%;
+    animation: smoothBg 60s linear infinite;
+    background-attachment: fixed;
+    mix-blend-mode: difference;
+}
+
+:has(:checked) {
+    --stripe-color: #000;
+}
+:has(:checked) .hero,
+:has(:checked) .hero::after {
+    filter: blur(10px) opacity(50%) saturate(200%);
+}
+
+.content {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    /* Text Alignment */
+    text-align: right; /* Align text to the right */
+    mix-blend-mode: difference;
+    -webkit-mix-blend-mode: difference;
+    filter: invert(1);
+    padding: 1rem;
+    overflow: hidden; /* Prevent content overflow */
+}
+
+.title-and-text {
+    max-width: 90%;
+}
+
+
+.image {
+    max-width: 100%;
+    margin-bottom: 0.5rem;
+}
+
+.image img {
+    max-width: 150px; /* Set a reasonable maximum width for the image */
+    height: auto;
+}
+
+.buttons {
+    display: flex;
+    gap: 1rem;
+    flex-direction: row-reverse; /* Reverse button order for RTL */
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 25px;
+    background-color: var(--btn-bg-color);
+    color: var(--btn-text-color);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    text-align: center;
+}
+
+.btn:hover {
+    background-color: var(--btn-hover-bg-color);
+}
+
+.btn-register {
+    background-color: #28a745;
+}
+
+.btn-signin {
+    background-color: #17a2b8;
+}
+
+.h1--scalingSize {
+    font-size: calc(2rem + 5vw);
+    position: relative;
+}
+
+.subtitle {
+    text-align: center;
+    font-size: 1rem;
+}
+
+/* icon container styles */
+.icon-container {
+    display: flex;
+    align-items: center; 
+    gap: 1rem;
+    position: fixed; /* Position relative to the viewport */
+    top: 10px;     /* 10px from the top */
+    right: 10px;    /* 10px from the right for RTL */
+    z-index: 100;     /* Ensure icons are above other content */
+}
+
+/* Language switcher styles */
+#lang-switcher {
+    font-size: 20px; /* Adjust size as needed */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px; /* Same size as the dark/light icons */
+    height: 40px;
+    border-radius: 50%; /* Circular shape */
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#lang-switcher:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15); 
+    transform: translateY(-2px);
+}
+
+/* Dark Mode Switch Styles */
+.dark-mode-switch {
+display: flex;
+align-items: center;
+transition: all 0.2s ease;
+}
+
+.dark-mode-switch:hover { 
+    transform: translateY(-2px);
+}
+
+#switch {
+appearance: none;
+-webkit-appearance: none;
+opacity: 0;
+}
+
+.switch-label {
+position: relative; /* Keep the icons within the .switch-label */
+top: 0;  
+right: 0; /* Adjust for RTL */
+cursor: pointer;
+transition: 0.15s linear;
+will-change: transform, font-weight;
+padding: 0.5rem;
+}
+
+/* .switch-label:where(:hover, :active, :focus-within) {
+transition: 0.3s ease;
+animation: animSwitch 0.2s alternate;
+} */
+
+.switch-label span {
+    display: flex; /* To center the icon within the circle */
+    align-items: center;
+    justify-content: center;
+    width: 40px; /* Adjust the size as needed */
+    height: 40px;
+    border-radius: 50%; /* Make it a circle */
+    background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent white background */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    cursor: pointer;
+    transition: all 0.2s ease; /* Smooth transition on hover */
+}
+
+.switch-label span:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Lighter background on hover */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15); /* More pronounced shadow */
+    transform: translateY(-2px); /* Slight lift on hover */
+}
+
+@keyframes animSwitch {
+    50% {
+        transform: scale(1.2);
+        font-weight: 900;
+    }
+}
+
+.material-symbols-outlined {
+    font-size: 26px;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+
+#dark-icon {
+    opacity: var(--icon-opacity);
+    transform: var(--icon-transform);
+}
+
+#light-icon {
+    opacity: var(--btn-bg-color);
+    transform: scale(0);
+    position: absolute;
+    top: 10px;
+    right: 10px; /* Adjusted for RTL */
+    pointer-events: none;
+}
+
+#switch:checked + .switch-label #dark-icon {
+    opacity: 0;
+    transform: scale(0);
+}
+
+#switch:checked + .switch-label #light-icon {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto; /* Ensure the icon is clickable */
+}
+
+:has(:checked) {
+    --stripe-color: #000;
+    --icon-opacity: 0;
+    --icon-transform: scale(0);
+}
+
+:has(:checked) .light-icon {
+    opacity: 1;
+    transform: scale(1);
+}
+
+:has(:checked) .hero,
+:has(:checked) .hero::after {
+    filter: blur(10px) opacity(50%) saturate(200%);
+}
+
+
+.icon {
+    width: 1lh;
+    height: 1lh;
+    aspect-ratio: 1/1;
+    padding: 0.25em 0.35rem;
+    border-radius: calc(1px / 0);
+    border: 1px dashed;
+    --blink-opacity: 1;
+    animation: blink-animation 2s ease-in-out infinite running;
+}
+
+.h1--scalingSize::before {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    background: white;
+    text-shadow: 0 0 1px #ffffff;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-color: white;
+    -webkit-mask: linear-gradient(#000 0 0) luminance;
+    mask: linear-gradient(#000 0 0) luminance, alpha;
+    backdrop-filter: blur(19px) brightness(12.5);
+    -webkit-text-stroke: 1px white;
+    display: flex;
+    margin: auto;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Responsive design */
+@media (max-width: 1200px) {
+    .hero {
+        background-size: 350%, 250%;
+    }
+
+    .hero::after {
+        background-size: 350%, 250%;
+    }
+
+    .content {
+        padding: 2rem 1rem;
+    }
+    
+    .title-and-text, .buttons {
+        max-width: 100%;
+    }
+    
+    .image img {
+        max-width: 140px;
+    }
+    
+    .btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+    }
+}
+
+@media (max-width: 991px) {
+    .hero {
+        background-size: 400%, 300%;
+    }
+
+    .hero::after {
+        background-size: 400%, 300%;
+    }
+
+    .content {
+        padding: 2rem 1rem;
+    }
+    
+    .title-and-text, .buttons {
+        max-width: 100%;
+    }
+    
+    .image img {
+        max-width: 130px;
+    }
+    
+    .btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero {
+        background-size: 450%, 350%;
+    }
+
+    .hero::after {
+        background-size: 450%, 350%;
+    }
+
+    .content {
+        padding: 2rem 1rem;
+    }
+    
+    .title-and-text, .buttons {
+        max-width: 100%;
+    }
+    
+    .image img {
+        max-width: 120px;
+    }
+    
+    .btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+    }
+}
+
+@media (max-width: 450px) {
+    .hero {
+        background-size: 500%, 400%;
+    }
+
+    .hero::after {
+        background-size: 500%, 400%;
+    }
+
+    .content {
+        padding: 2rem 1rem;
+    }
+    
+    .title-and-text, .buttons {
+        max-width: 100%;
+    }
+    
+    .image img {
+        max-width: 100px;
+    }
+    
+    .btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+    }
+
+    .buttons {
+        flex-direction: column-reverse; /* Reverse for RTL */
+    }
+}
